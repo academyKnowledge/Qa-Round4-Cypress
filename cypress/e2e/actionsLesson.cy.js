@@ -1,7 +1,14 @@
 /// <reference types="cypress"/>
 describe('Actions lesson', () => {
-    it('Click command', () => {
+   before(()=>{
+        cy.log("This is before hook")
+   })
+ 
+   beforeEach(() => {
         cy.visit("http://127.0.0.1:5500/actionsLesson.html")
+
+   });
+    it('Click command', () => {
         cy.get("#btn1").click()
         cy.get("#btn1").click("bottom")
         cy.get("#btn0").click({force:true})
@@ -21,13 +28,12 @@ describe('Actions lesson', () => {
     });
 
     it('Type Command', () => {
-        cy.visit("http://127.0.0.1:5500/actionsLesson.html")
         cy.get("[placeholder='Type your name']").clear().type("Razan")
         cy.get("[placeholder='Type your name']").clear().type("Razan",{delay:1000})
         cy.get("[name=input_0]").clear({force:true}).type("Razan",{force:true})
     });
 
-    it('Search for product', () => {
+    it.only('Search for product', () => {
         cy.visit("/")
         // cy.get("#search").clear().type("bag{enter}")
         // cy.get("#search").clear().type("bag"+"{enter}")
@@ -35,7 +41,6 @@ describe('Actions lesson', () => {
     });
 
     it('Select command', () => {
-        cy.visit("http://127.0.0.1:5500/actionsLesson.html")
         cy.get("#country").select("Jordan") // select by text 
         cy.get("[value='jordan_country']").should("be.selected")
         // cy.get("#country").select("palestine_country") // select by value 
@@ -43,7 +48,6 @@ describe('Actions lesson', () => {
     });
 
     it('check and uncheck command', () => {
-        cy.visit("http://127.0.0.1:5500/actionsLesson.html")
         cy.get("#Banana").check()
         cy.get("#Banana").should("be.checked")
         cy.get("#Nuts").check().uncheck()
@@ -57,22 +61,17 @@ describe('Actions lesson', () => {
     });
 
     it('dbclick command', () => {
-        cy.visit("http://127.0.0.1:5500/actionsLesson.html")
         cy.get("#dbClick").dblclick()
     });
 
-    it.only('focus and blur commands', () => {
-        cy.visit("http://127.0.0.1:5500/actionsLesson.html")
+    it('focus and blur commands', () => {
         cy.get("#myTextField").focus()
         cy.get("#myTextField").should("have.focus")
         cy.get("#myTextField").focus().blur()
         cy.get("#myTextField").should("not.have.focus")
-
-
     });
 
     it('trigger command', () => {
-        cy.visit("http://127.0.0.1:5500/actionsLesson.html")
         cy.get("#btn1").trigger("mousedown")
         cy.pause()
         cy.get("#trigger_btn").trigger("mouseover")
@@ -81,5 +80,13 @@ describe('Actions lesson', () => {
 
 
     });
+
+    after(()=>{
+        cy.log("this is after")
+    })
+
+    afterEach(()=>{
+        cy.log("this is afterEach")
+    })
 
 });
