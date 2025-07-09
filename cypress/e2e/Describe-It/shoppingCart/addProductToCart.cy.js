@@ -2,9 +2,7 @@
 
 describe('Add To cart functionality', () => {
     before(()=>{
-        const email = "CypressUser@gmail.com"  
-        const password = "test@123"
-        cy.loginToMagento(email,password)
+         cy.loginToMagento()
     })
     it.only('Validate that the user can add product to cart', () => {
         cy.visit("/");
