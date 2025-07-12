@@ -1,41 +1,61 @@
-import { Given , When , Then } from "cypress-cucumber-preprocessor/steps";
+/// <reference types="cypress"/>
+import { Given , When , Then, Before , After } from "cypress-cucumber-preprocessor/steps";
+import loginTestActions from "../../../../support/PageObjects/loginTest/Actions.cy";
+import sharedAssertions from "../../../../support/PageObjects/shared/Assertions.cy";
+
+const loginAction = new loginTestActions();
+const shardAssertion = new sharedAssertions();
+
+// Before({tags:'@TC-6666'},()=>{
+//     cy.log("Hello")
+// })
+
+// Before({tags:'@TC-6666 or @TC-1234'},()=>{
+//     cy.log("Hello")
+// })
+
+// Before({tags:'@TC and @TC-6666'},()=>{
+//     cy.log("Hello")
+// })
+
 
 Given('The user navigated to login page',()=>{
-    cy.visit("/customer/account/login/")
+    loginAction.openLoginPage()
 })
 
 When('Types wrong email in email input field',()=>{
-    cy.get("#email").type("CypressUser1111@gmail.com") 
+    loginAction.typeEmailInEmailInputField("CypressUser1111@gmail.com")
 })
 
 When('Types email in email input field',()=>{
-    cy.get("#email").type("CypressUser@gmail.com") 
+    loginAction.typeEmailInEmailInputField("CypressUser@gmail.com")
 })
 
 When('Types password in password input field',()=>{
-    cy.get("#pass").type("test@123")
+    loginAction.typePasswordInPasswordInputField("test@123")
 })
 
 When('Clicks on login button',()=>{
-    cy.get("#send2").click()
+   loginAction.clickOnLoginButton();
 })
 
 Then('The user will redirected to my Account page',()=>{
-    cy.url().should('eq',"https://magento.softwaretestingboard.com/customer/account/")
+    shardAssertion.checkCurrentURLIsContain("https://magento.softwaretestingboard.com/customer/account/")
 })
 
 Then('{string} title should be visible',(title)=>{
-    cy.get(".page-title").should('contain',title)
+    shardAssertion.checkPageTitleIsContain(title)
 })
 
 Then('{string} message should shown and should be visible',(message)=>{
-    cy.get("[role=alert]").should('contain',message).and('be.visible')
+    shardAssertion.checkMessageBarIsVisible().checkMessageBarIsContain(message)
 })
 
 When('Types {string} in email input field',(email)=>{
-    cy.get("#email").type(email) 
+    loginAction.typeEmailInEmailInputField(email) 
 })
 
 When('Types {string} in password input field',(password)=>{
-    cy.get("#pass").type(password)
+    loginAction.typePasswordInPasswordInputField(password)
 })
+
